@@ -4,19 +4,20 @@ import axios from 'axios';
 import PostsList from './components/PostsList ';
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const [postField, setPostField] = useState({
-    'title': '',
-    'body': ''
+  const [products, setProducts] = useState([]);
+  const [productField, setProductField] = useState({
+    "title": "",
+    "price": 0,
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
     axios
-      .get('https://jsonplaceholder.typicode.com/posts')
+      .get('https://dummyjson.com/products')
       .then((response) => {
-        setPosts(response.data);
+        setProducts(response.data.products);
+        console.log(response.data)
       })
       .catch((error) => {
         console.error(error);
@@ -26,28 +27,28 @@ function App() {
 
   useEffect(() => {
     setLoading(false);
-  }, [posts])
+  }, [products])
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setPosts(current => [...current, {
-      'id': posts.length + 1,
-      'title': postField.title,
-      'body': postField.body,
+    setProducts(current => [...current, {
+      'id': products.length + 1,
+      'title': productField.title,
+      'price': productField.price,
     }])
 
-    setPostField({
+    setProductField({
       'title': '',
-      'body': ''
+      'price':0 ,
     })
   }
 
   const handleDelete = (id) => {
-    setPosts(current =>
+    setProducts(current =>
       current.filter(
-        post => {
-          return post.id !== id;
+        product => {
+          return product.id !== id;
         }
       )
     )
@@ -55,7 +56,7 @@ function App() {
 
   return (
     <div className="flex flex-col gap-4 max-w-5xl mx-auto">
-      {loading ? <h1>loading...</h1> : <PostsList posts={posts} postField={postField} setPostField={setPostField} handleSubmit={handleSubmit} handleDelete={handleDelete} />}
+      {loading ? <h1>loading...</h1> : <PostsList products={products} productField={productField} setProductField={setProductField} handleSubmit={handleSubmit} handleDelete={handleDelete} />}
     </div>
   );
 }

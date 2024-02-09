@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 
-const PostsList = ({ posts, postField, setPostField, handleSubmit, handleDelete }) => {
+const PostsList = ({ products, productField, setProductField, handleSubmit, handleDelete }) => {
+    console.log("product",products)
     const [modalStatus, setModalStatus] = useState(false);
     return (
         <>
             <div>
                 <button class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button" onClick={() => setModalStatus(true)}>
-                    Add new post
+                    Add new product
                 </button>
             </div>
-            <ModalCustom modalStatus={modalStatus} setModalStatus={setModalStatus} postField={postField} setPostField={setPostField} handleSubmit={handleSubmit} />
+            <ModalCustom modalStatus={modalStatus} setModalStatus={setModalStatus} productField={productField} setProductField={setProductField} handleSubmit={handleSubmit} />
             <div className='max-w-5xl mx-auto'>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 :text-gray-400">
@@ -19,7 +20,7 @@ const PostsList = ({ posts, postField, setPostField, handleSubmit, handleDelete 
                                     Title
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Content
+                                    price
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Action
@@ -28,17 +29,19 @@ const PostsList = ({ posts, postField, setPostField, handleSubmit, handleDelete 
                         </thead>
                         <tbody>
                             {
-                                posts.map((post) => {
+                                products.map((product) => {
+
+                                   
                                     return (
-                                        <tr class="odd:bg-white even:bg-gray-50 border-b" key={post.id}>
+                                        <tr class="odd:bg-white even:bg-gray-50 border-b" key={product.id}>
                                             <th scope="row" class="text-lg px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                {`${post.title.substring(0, 30)}...`}
+                                                {`${product.title.substring(0, 30)}...`}
                                             </th>
                                             <td class="px-6 py-4">
-                                                {`${post.body.substring(0, 100)}...`}
+                                                {`${product.price}`}
                                             </td>
                                             <td class="px-6 py-4">
-                                                <a href="#" class="font-medium text-red-400 hover:underline" onClick={() => handleDelete(post.id)}>Delete</a>
+                                                <a href="#" class="font-medium text-red-400 hover:underline" onClick={() => handleDelete(product.id)}>Delete</a>
                                             </td>
                                         </tr>
                                     )
@@ -54,7 +57,7 @@ const PostsList = ({ posts, postField, setPostField, handleSubmit, handleDelete 
 
 export default PostsList
 
-const ModalCustom = ({ modalStatus, setModalStatus, postField, setPostField, handleSubmit }) => {
+const ModalCustom = ({ modalStatus, setModalStatus, productField, setProductField, handleSubmit }) => {
     return (
         <>
             <div id="authentication-modal" tabindex="-1" aria-hidden="true" class={`${modalStatus ? '' : 'hidden'} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
@@ -78,11 +81,11 @@ const ModalCustom = ({ modalStatus, setModalStatus, postField, setPostField, han
                             <form class="space-y-4" onSubmit={handleSubmit}>
                                 <div>
                                     <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                                    <input type="text" name="title" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Lorem ipsum title here" required value={postField.title} onChange={(e) => setPostField(current => { return { ...current, title: e.target.value } })} />
+                                    <input type="text" name="title" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Lorem ipsum title here" required value={productField.title} onChange={(e) => setProductField(current => { return { ...current, title: e.target.value } })} />
                                 </div>
                                 <div>
-                                    <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your content</label>
-                                    <textarea type="text" name="content" id="content" placeholder="Lorem ipsum give some context here please" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required value={postField.body} onChange={(e) => setPostField(current => { return { ...current, body: e.target.value } })} />
+                                    <label for="content" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">price</label>
+                                    <textarea type="text" name="content" id="content" placeholder="Lorem ipsum give some context here please" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required value={productField.price} onChange={(e) => setProductField(current => { return { ...current, price: e.target.value } })} />
                                 </div>
                                 <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={() => setModalStatus(false)}>Post</button>
                             </form>
